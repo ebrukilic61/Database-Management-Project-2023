@@ -1,5 +1,5 @@
 # Database-Management-Project---2023
-University group project for database management lesson
+It's a university group project for a database management lesson. We created a job-seeking application by using Java and plpgsql.
 
 Contributors:
 Beyza Fındık
