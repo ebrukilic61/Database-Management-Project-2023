@@ -1,0 +1,69 @@
+CREATE TABLE Kullanici(
+	UserID serial primary key,
+	fname varchar(20) NOT NULL,
+	lname varchar(20) NOT NULL,
+	nickname varchar(50) NOT NULL,
+	passwords varchar(16) check(char_length(passwords) >= 8) NOT NULL
+);
+
+CREATE TABLE Admin(
+	nickname varchar(50) NOT NULL,
+	passwords varchar(16) check(char_length(passwords) >= 8) NOT NULL
+);
+
+CREATE TABLE Company(
+	company_id int NOT NULL,
+	company_name varchar(20),
+	konum varchar(30),
+	iletisim varchar(30),
+	primary key (company_id)
+);
+
+CREATE TABLE IF NOT EXISTS Sertifika_programlari (
+	sertifika_id SERIAL PRIMARY KEY,
+	company_id INT NOT NULL,
+	sertifika_adi VARCHAR(50) NOT NULL,
+	sertifika_tarihi DATE NOT NULL,
+	FOREIGN KEY (company_id) REFERENCES Company(company_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Sertifika_basvuru (
+	basvuru_id SERIAL PRIMARY KEY,
+	sertifika_id INT NOT NULL,
+	basvuran_id INT NOT NULL,
+	FOREIGN KEY (sertifika_id) REFERENCES Sertifika_programlari(sertifika_id),
+	FOREIGN KEY (basvuran_id) REFERENCES Kullanici(UserID)
+);
+
+CREATE TABLE Profil (
+	usr_id INT PRIMARY KEY,
+	okul VARCHAR(30),
+	department VARCHAR(30),
+	deneyim VARCHAR(30),
+	email VARCHAR(30),
+	FOREIGN KEY (usr_id) REFERENCES Kullanici(UserID) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS ilanlar (
+    ilan_id SERIAL PRIMARY KEY,
+    ilan_ismi VARCHAR(255) NOT NULL,
+    ilan_tarihi DATE NOT NULL,
+    aciklama TEXT,
+    company_id INT NOT NULL,
+    FOREIGN KEY (company_id) REFERENCES company(company_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Basvurular (
+    basvuru_id SERIAL PRIMARY KEY,
+    ilan_id INT NOT NULL,
+    basvuran_id INT NOT NULL,
+    FOREIGN KEY (ilan_id) REFERENCES ilanlar(ilan_id),
+    FOREIGN KEY (basvuran_id) REFERENCES Kullanici(UserID)
+);
+
+CREATE TABLE IF NOT EXISTS Basvuru_sonuclari (
+    basvuru_id INT NOT NULL,
+    sonuc_durumu VARCHAR(50) CHECK (sonuc_durumu IN ('Kabul', 'Red', 'Beklemede')) NOT NULL,
+    PRIMARY KEY (basvuru_id),
+    FOREIGN KEY (basvuru_id) REFERENCES Basvurular(basvuru_id)
+);
