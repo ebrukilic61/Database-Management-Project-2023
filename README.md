@@ -1,2 +1,8 @@
 # Database-Management-Project---2023
-university group project for database management lesson
+University group project for database management lesson
+
+Contributors:
+Beyza Fındık
+Ebru Kılıç
+Merve Çakır
+Sevda Karahan
